@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartupLens AI | Indian Startup Valuation & Investor Intelligence</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="brand-section">
+            <div class="brand-icon">🚀</div>
+            <div class="brand-info">
+                <h1>StartupLens AI</h1>
+                <p>Indian Startup Ecosystem Valuation, Funding Dynamics, and Investor Intelligence System</p>
+            </div>
+        </div>
+
+        <div class="header-badges">
+            <span class="badge badge-live" id="stat_total_deals">3,044 Deals Analyzed</span>
+            <span class="badge badge-model" id="stat_total_capital">$46.37 Billion Deployed</span>
+            <span class="badge badge-author">Dhruval | AIML</span>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="predict-tab">🔮 Valuation Predictor & Advisory</button>
+        <button class="nav-tab" data-tab="whatif-tab">🔄 What-If Hub Simulator</button>
+        <button class="nav-tab" data-tab="investor-tab">🏢 Investor Syndication Intelligence</button>
+        <button class="nav-tab" data-tab="sectors-tab">📊 Sector Opportunity Matrix</button>
+        <button class="nav-tab" data-tab="ecosystem-tab">📈 Macro Ecosystem Explorer</button>
+        <button class="nav-tab" data-tab="model-tab">🔬 Model Diagnostics & Benchmarks</button>
+    </nav>
+
+    <!-- TAB 1: VALUATION PREDICTOR -->
+    <main id="predict-tab" class="tab-content active">
+        <!-- Presets bar -->
+        <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">⚡ Quick Test Scenarios:</span>
+            <button class="btn btn-secondary preset-btn" style="padding: 0.35rem 0.75rem; font-size: 0.775rem;" 
+                    data-industry="FinTech & Payments" data-city="Bangalore" data-stage="Early Stage (Series A/B)" data-year="2026" data-syndicate="3">
+                FinTech in Bangalore (Series A)
+            </button>
+            <button class="btn btn-secondary preset-btn" style="padding: 0.35rem 0.75rem; font-size: 0.775rem;"
+                    data-industry="Technology & Enterprise SaaS" data-city="Delhi NCR" data-stage="Early Stage (Series A/B)" data-year="2026" data-syndicate="2">
+                Enterprise SaaS in Delhi NCR
+            </button>
+            <button class="btn btn-secondary preset-btn" style="padding: 0.35rem 0.75rem; font-size: 0.775rem;"
+                    data-industry="HealthTech & Wellness" data-city="Mumbai" data-stage="Seed / Angel" data-year="2026" data-syndicate="2">
+                HealthTech Seed in Mumbai
+            </button>
+            <button class="btn btn-secondary preset-btn" style="padding: 0.35rem 0.75rem; font-size: 0.775rem;"
+                    data-industry="E-Commerce & Retail" data-city="Bangalore" data-stage="Growth / Late Stage (Series C+)" data-year="2026" data-syndicate="5">
+                E-Commerce Mega Round
+            </button>
+        </div>
+
+        <div class="grid-2">
+            <!-- Left: Input Form -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <div>
+                        <h2>📐 Startup Architecture Inputs</h2>
+                        <p>Configure company profile to generate machine learning valuation forecast</p>
+                    </div>
+                </div>
+
+                <form id="prediction_form">
+                    <div class="form-group">
+                        <label class="form-label" for="industry_select">Industry Vertical</label>
+                        <select id="industry_select" class="form-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="city_select">Operating Tech Hub</label>
+                        <select id="city_select" class="form-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="stage_select">Financing Round / Stage</label>
+                        <select id="stage_select" class="form-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="funding_year">Target Funding Year</label>
+                        <div class="range-wrap">
+                            <input type="range" id="funding_year" class="range-slider" min="2015" max="2028" value="2026" step="1">
+                            <span class="range-val" id="funding_year_val">2026</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="investor_count">Syndicate Size (Participating Investors)</label>
+                        <div class="range-wrap">
+                            <input type="range" id="investor_count" class="range-slider" min="1" max="15" value="3" step="1">
+                            <span class="range-val" id="investor_count_val">3</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="predict_submit_btn" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+                        <span>🚀 Run Valuation Inference</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right: Results Card -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <div>
+                        <h2>📊 Valuation & Syndicate Forecast</h2>
+                        <p>Machine Learning projection generated via tuned Gradient Boosting Regressor</p>
+                    </div>
+                    <span class="tier-badge" id="res_tier_badge">Early Growth Bracket</span>
+                </div>
+
+                <!-- Hero Valuation Box -->
+                <div class="result-hero">
+                    <div class="valuation-title">Projected Deal Ticket Size</div>
+                    <div class="valuation-amount" id="res_val_usd">$7.83 Million</div>
+                    <div class="valuation-inr" id="res_val_inr">≈ ₹65.38 Crores</div>
+                    <div style="font-size: 0.8rem; color: #9ca3af;" id="res_percentile">Top 18.4% of historical Indian funding rounds</div>
+                </div>
+
+                <!-- Confidence Range Bar -->
+                <div class="range-meter-box">
+                    <div class="range-meter-labels">
+                        <span>Conservative Bound (-30%)</span>
+                        <span style="color: var(--accent-cyan); font-weight: 600;">90% Empirical Confidence Interval</span>
+                        <span>Aggressive Target (+35%)</span>
+                    </div>
+                    <div class="range-meter-track">
+                        <div class="range-meter-fill" id="res_range_meter_fill"></div>
+                    </div>
+                    <div class="range-values-grid">
+                        <span id="res_lower_bound">$5.48M</span>
+                        <span style="color: #93c5fd;">Expected Target Range</span>
+                        <span id="res_upper_bound">$10.57M</span>
+                    </div>
+                </div>
+
+                <!-- Strategic Advisory Insights -->
+                <div class="insights-card">
+                    <h3>💡 Strategic Venture Capital Advisory</h3>
+                    <ul class="insights-list" id="res_insights_list">
+                        <li>Operating from Bangalore grants access to India's dense Tier-1 venture network, commanding historical valuation premiums.</li>
+                        <li>For Series A/B rounds, institutional investors heavily scrutinize Unit Economics (LTV/CAC > 3x) and cohort retention.</li>
+                        <li>Optimal syndicate configuration offering balanced board representation without dilution fragmentation.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TAB 2: WHAT-IF SIMULATOR -->
+    <main id="whatif-tab" class="tab-content">
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <div>
+                    <h2>🔄 Counterfactual Location & Syndicate Simulator</h2>
+                    <p>Compare projected funding outcomes across 9 major Indian startup hubs for the same architecture</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 1rem; align-items: flex-end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="whatif_industry_select">Industry</label>
+                    <select id="whatif_industry_select" class="form-select"></select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="whatif_stage_select">Stage</label>
+                    <select id="whatif_stage_select" class="form-select"></select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="whatif_year">Year</label>
+                    <input type="number" id="whatif_year" class="form-input" value="2026" min="2015" max="2030">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="whatif_syndicate">Syndicate Size</label>
+                    <input type="number" id="whatif_syndicate" class="form-input" value="2" min="1" max="15">
+                </div>
+                <button type="button" id="run_whatif_btn" class="btn btn-primary" style="height: 42px;">
+                    <span>Run Simulation</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Chart -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>📊 Tech Hub Valuation Comparison</h2>
+                </div>
+                <div style="height: 380px;">
+                    <canvas id="whatIfChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>📋 Hub-by-Hub Valuation Matrix</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Tech Hub</th>
+                                <th>Projected USD</th>
+                                <th>Projected INR</th>
+                                <th>Delta vs Median</th>
+                            </tr>
+                        </thead>
+                        <tbody id="whatif_table_body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TAB 3: INVESTOR INTELLIGENCE -->
+    <main id="investor-tab" class="tab-content">
+        <div class="glass-card">
+            <div class="card-header">
+                <div>
+                    <h2>🏢 Most Active Venture Capitalists & Angel Networks</h2>
+                    <p>Syndication volume and deal participation across the historical dataset</p>
+                </div>
+                <span class="badge badge-author">Institutional Deal Flow</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Investor / Venture Firm</th>
+                            <th>Historical Deals</th>
+                            <th>Activity Distribution</th>
+                        </tr>
+                    </thead>
+                    <tbody id="investors_table_body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- TAB 4: SECTOR MATRIX -->
+    <main id="sectors-tab" class="tab-content">
+        <div class="glass-card">
+            <div class="card-header">
+                <div>
+                    <h2>📊 Sector Opportunity Scoring Matrix</h2>
+                    <p>Composite index (0–100) formulated from total capital deployed, deal volume, and geographic dispersion</p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Industry Vertical</th>
+                            <th>Opportunity Score</th>
+                            <th>Total Funding</th>
+                            <th>Deals</th>
+                            <th>Median Deal</th>
+                            <th>Active Hubs</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectors_table_body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- TAB 5: ECOSYSTEM ANALYTICS -->
+    <main id="ecosystem-tab" class="tab-content">
+        <div class="grid-2">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>📈 Funding Volume & Capital Trajectory (2015–2020)</h2>
+                </div>
+                <div style="height: 340px;">
+                    <canvas id="yearlyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>🏙️ Geographic Capital Concentration</h2>
+                </div>
+                <div style="height: 340px;">
+                    <canvas id="cityShareChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TAB 6: MODEL DIAGNOSTICS -->
+    <main id="model-tab" class="tab-content">
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <div>
+                    <h2>🤖 5-Fold Cross-Validation Algorithmic Benchmark</h2>
+                    <p>Rigorous performance audit across diverse machine learning architectures against naive baseline</p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm Architecture</th>
+                            <th>Holdout R²</th>
+                            <th>RMSE (Log)</th>
+                            <th>MAE (Log)</th>
+                            <th>5-Fold CV R²</th>
+                            <th>Diagnostic Takeaway</th>
+                        </tr>
+                    </thead>
+                    <tbody id="benchmarks_table_body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>🔍 Top Valuation Drivers (Feature Importances)</h2>
+                </div>
+                <div style="height: 320px;">
+                    <canvas id="featuresChart"></canvas>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2>⚙️ Machine Learning Pipeline Architecture</h2>
+                </div>
+                <div style="font-size: 0.85rem; line-height: 1.7; color: #d1d5db;">
+                    <p style="margin-bottom: 0.75rem;">
+                        <strong>Target Variable:</strong> Continuous funding amount transformed via natural log scaling: 
+                        <code style="background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; color: #67e8f9;">y = log(1 + Amount_USD)</code>
+                    </p>
+                    <p style="margin-bottom: 0.75rem;">
+                        <strong>Categorical Encoder:</strong> Scikit-Learn <code>OneHotEncoder(handle_unknown='ignore')</code> preserving inference stability on out-of-distribution inputs.
+                    </p>
+                    <p style="margin-bottom: 0.75rem;">
+                        <strong>Continuous Preprocessor:</strong> <code>StandardScaler</code> coupled with <code>SimpleImputer(strategy='median')</code>.
+                    </p>
+                    <p style="margin-bottom: 0.75rem;">
+                        <strong>Tuned Estimator:</strong> <code>GradientBoostingRegressor(n_estimators=150, learning_rate=0.08, max_depth=4)</code>.
+                    </p>
+                    <p>
+                        <strong>Serialization:</strong> End-to-end composite pipeline pickled via <code>joblib</code> into <code>startup_funding_predictor.joblib</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--card-border); text-align: center; color: var(--text-dim); font-size: 0.8rem;">
+        <p>StartupLens AI Platform • AIML Project by Dhruval • Powered by FastAPI & Scikit-Learn</p>
+    </footer>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
